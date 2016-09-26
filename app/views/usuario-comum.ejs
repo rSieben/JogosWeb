@@ -1,0 +1,48 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<style>
+		li:hover{
+			background: #444;
+			opacity: 0.8;
+		}
+
+		li p{
+			color:#FFF;
+			font-weight:bolder;
+		}
+	</style>
+
+</head>
+<body style="background: url('http://subtlepatterns2015.subtlepatterns.netdna-cdn.com/patterns/sayagata-400px.png');">
+	<nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Aula jogos Web</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="/jogos">Lista de jogos</a></li>
+				</ul>
+			</div>
+          </div>
+        </div>
+	</nav>
+    <div class="container">
+		<div class="row">
+			<%- body -%>
+		</div>
+	</div>
+    <footer style="position:absolute;bottom:0;width:100%;">
+        <p class="text-center">COPYRIGHT - 2016</p>
+    </footer>
+</body>
+</html>

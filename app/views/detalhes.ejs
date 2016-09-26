@@ -1,0 +1,7 @@
+﻿<% layout('usuario-comum.ejs') %>
+<ul class="list-group">
+	<li class="list-group-item"><%=detalhes._id%> <%=detalhes.nome%><a href="/jogos" style="float:right;">Voltar</a></li>
+</ul>
+<div class="text-center">
+	<iframe style="padding:10px;box-shadow:0px 0px 1px #444;" width="560" height="315" src="https://www.youtube.com/embed/<%=detalhes.video%>" frameborder="0" allowfullscreen></iframe>
+</div>

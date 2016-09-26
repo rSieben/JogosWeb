@@ -1,0 +1,6 @@
+﻿<% layout('usuario-comum.ejs') %>
+<ul class="list-group">
+	<% for(var i=0; i<jogos.length; i++) {%>
+		<li class="list-group-item"><a href="/jogo/<%=jogos[i]._id%>"><%=jogos[i]._id%> - <%=jogos[i].nome%></a></li>
+	<% } %>
+<ul>
