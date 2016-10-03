@@ -5,30 +5,21 @@
 //    res.end("Ola mundo, node JS");
 //}).listen(3000);
 
+
 var MongoCliente = require('mongodb').MongoClient;
 var db = null;
 
-app.get('/jogos', function (req, res) {
-    db.collection("jogos")
-        .find()
-        .toArray(function (erro, jogos) {
-            if (!erro)
-                res.render("jogos", { "listaJogos":jogos });
-            else
-                res.status(500);
-        });
+MongoCliente.connect('mongodb://127.0.0.1/test', function (erro, instancia) {
+    if (erro)
+        console.log("Erro ao estabelecer uma conexao com o db:" + erro);
+    else {
+        db = instancia;
+        http.createServer(app)
+            .listen(300, function () {
+                console.log('servidor está no ar');
+            });
+    }
 });
-
-var jogos = [
-    { _id: 1, nome: 'CS:GO', video: 'fOE3G0DfOcA' },
-    { _id: 2, nome: 'OverWatch', video: 'kjZsAqrROlg' },
-    { _id: 3, nome: 'Battlefield', video: '1SSQzYD4dlI'  },
-    { _id: 4, nome: 'The Crew', video: 'R7X5EyZ3RJQ'  },
-    { _id: 5, nome: 'Rust', video: 'i7xmL-bdv10'  },
-    { _id: 6, nome: 'Eclipse', video: 'uS157k0m-YU'  },
-    { _id: 7, nome: 'Forza', video: 'ZL5xigcNLgw'  },
-    { _id: 8, nome: 'Medal of Honor', video: 'ogqQx0F0mpQ'  }
-];
 
 var express = require('express');
 var engine = require('ejs-mate');
@@ -43,29 +34,41 @@ app.set('views', './views');
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.get('/jogo/inserir', function (req, res) {
-    res.render('inserir-jogo');
-});
 
 app.post('/jogo/inserir', function (req, res) {
     console.log(req.body);
-    res.end('Formularo enviado');
+    db.collection("jogos")
+        .insert({ nome: req.body.nome, video: req.body.video }, function (erro, jogos) {
+            if (!erro)
+                res.render("index", { jogos: jogos });
+            else
+                res.status(500);
+        });
 });
 
-app.get('/jogos', function (red, res) {
-    res.render('index', { jogos: jogos});
+
+app.get('/jogos', function (req, res) {
+    db.collection("jogos")
+        .find()
+        .toArray(function (erro, jogos) {
+            if (!erro)
+                res.render("index", { jogos: jogos });
+            else
+                res.status(500);
+        });
 });
+
 
 app.get('/jogo/:id', function (red, res) {
-    var detalhes = jogos.filter(function (c) {
-        return c._id == red.params.id;
-    })[0];
-
-    if (detalhes)
-        res.render('detalhes', { detalhes: detalhes });
-    else
-        res.status(404).send('Error 404. A página que está tentando acessar não existe');
+    db.collection("jogos")
+        .find({ "_id": red.params.id }, function (erro, detalhes) {
+            if (!erro)
+                res.render("detalhes", { detalhes: detalhes });
+            else
+                res.status(500);
+        });
 });
+
 
 var http = require('http');
 http.createServer(app).listen(3000, function () {

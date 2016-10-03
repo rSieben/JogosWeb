@@ -31,8 +31,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="app.js" />
+    <Compile Include="public\phaser\js\index.js" />
+    <Compile Include="public\phaser\js\phaser.min.js" />
     <Content Include="package.json" />
     <Content Include="public\index.htm" />
+    <Content Include="public\phaser\index.htm" />
     <Content Include="README.md" />
     <Content Include="views\detalhes.ejs" />
     <Content Include="views\index.ejs" />
@@ -40,7 +43,10 @@
     <Content Include="views\usuario-comum.ejs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="public\phaser\" />
+    <Folder Include="public\phaser\js\" />
     <Folder Include="typings\globals\body-parser\" />
+    <Folder Include="typings\globals\mongodb\" />
     <Folder Include="views\" />
     <Folder Include="public\" />
     <Folder Include="typings\" />
@@ -53,6 +59,7 @@
     <TypeScriptCompile Include="typings\globals\body-parser\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\ejs\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\express\index.d.ts" />
+    <TypeScriptCompile Include="typings\globals\mongodb\index.d.ts" />
     <TypeScriptCompile Include="typings\globals\node\index.d.ts" />
     <TypeScriptCompile Include="typings\index.d.ts" />
   </ItemGroup>
