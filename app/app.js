@@ -5,6 +5,20 @@
 //    res.end("Ola mundo, node JS");
 //}).listen(3000);
 
+var MongoCliente = require('mongodb').MongoClient;
+var db = null;
+
+app.get('/jogos', function (req, res) {
+    db.collection("jogos")
+        .find()
+        .toArray(function (erro, jogos) {
+            if (!erro)
+                res.render("jogos", { "listaJogos":jogos });
+            else
+                res.status(500);
+        });
+});
+
 var jogos = [
     { _id: 1, nome: 'CS:GO', video: 'fOE3G0DfOcA' },
     { _id: 2, nome: 'OverWatch', video: 'kjZsAqrROlg' },
