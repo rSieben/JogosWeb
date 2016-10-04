@@ -35,6 +35,17 @@
     <Compile Include="public\phaser\js\phaser.min.js" />
     <Content Include="package.json" />
     <Content Include="public\index.htm" />
+    <Content Include="public\phaser\assets\background.png" />
+    <Content Include="public\phaser\assets\coin.mp3" />
+    <Content Include="public\phaser\assets\coin.png" />
+    <Content Include="public\phaser\assets\dead.mp3" />
+    <Content Include="public\phaser\assets\enemy.png" />
+    <Content Include="public\phaser\assets\jump.mp3" />
+    <Content Include="public\phaser\assets\player.png" />
+    <Content Include="public\phaser\assets\player2.png" />
+    <Content Include="public\phaser\assets\progressBar.png" />
+    <Content Include="public\phaser\assets\wallHorizontal.png" />
+    <Content Include="public\phaser\assets\wallVertical.png" />
     <Content Include="public\phaser\index.htm" />
     <Content Include="README.md" />
     <Content Include="views\detalhes.ejs" />
@@ -44,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="public\phaser\" />
+    <Folder Include="public\phaser\assets\" />
     <Folder Include="public\phaser\js\" />
     <Folder Include="typings\globals\body-parser\" />
     <Folder Include="typings\globals\mongodb\" />
