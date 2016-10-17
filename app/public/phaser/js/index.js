@@ -39,8 +39,10 @@ function body_onload() {
             this.inimigos.enableBody = true;
             this.inimigos.createMultiple(10, 'enemy');
 
+            // loop para criar os inimigos
             jogo.time.events.loop(2200, this.adicionarInimigo, this);
 
+            // cria mundo
             this.criarMundo();
 
         },

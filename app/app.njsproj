@@ -31,6 +31,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="app.js" />
+    <Compile Include="public\phaser\js\boot.js" />
+    <Compile Include="public\phaser\js\carregar.js" />
     <Compile Include="public\phaser\js\index.js" />
     <Compile Include="public\phaser\js\phaser.min.js" />
     <Content Include="package.json" />
