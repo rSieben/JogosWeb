@@ -10,34 +10,63 @@ function body_onload() {
             jogo.load.image('wallV', 'assets/wallVertical.png');
             jogo.load.image('wallH', 'assets/wallHorizontal.png');
             jogo.load.image('coin', 'assets/coin.png');
+            jogo.load.image('enemy', 'assets/enemy.png');
         },
 
         create: function () {
-            this.jogador = jogo.add.sprite(jogo.width * 0.5, jogo.width * 0.5, 'player');
 
+            // jogador
+            this.jogador = jogo.add.sprite(jogo.width * 0.5, jogo.width * 0.5, 'player');
             this.jogador.anchor.setTo(0.5, 0.5);
             jogo.physics.arcade.enable(this.jogador);
             this.jogador.body.gravity.y = 500;
+            this.jogador.vidas = 3;
 
+            // cursor inputs
             this.cursor = jogo.input.keyboard.createCursorKeys();
 
+            //moeda
             this.moeda = jogo.add.sprite(60, 148, 'coin');
             this.moeda.anchor.setTo(0.5, 0.5);
             this.physics.arcade.enable(this.moeda);
 
+            //pontuacao
             this.pontuacaoLabel = jogo.add.text(25, 25, 'Score: 0', { fontSize: '20px', fill: '#fff' });
             this.pontuacao = 0;
+
+            // inimigo
+            this.inimigos = jogo.add.group();
+            this.inimigos.enableBody = true;
+            this.inimigos.createMultiple(10, 'enemy');
+
+            jogo.time.events.loop(2200, this.adicionarInimigo, this);
 
             this.criarMundo();
 
         },
 
         update: function () {
-            this.moverJogador();
-            //this.moverBot();
-            this.hitPlatform = jogo.physics.arcade.collide(this.jogador, this.paredes);
 
-            if (!this.jogador.inWorld) {
+            console.log(this.jogador.vidas);
+
+            this.hitPlatform = jogo.physics.arcade.collide(this.jogador, this.paredes);
+            this.hitPlayer = jogo.physics.arcade.collide(this.jogador, this.inimigos);
+
+            jogo.physics.arcade.collide(this.inimigos, this.inimigos);
+            jogo.physics.arcade.collide(this.inimigos, this.paredes);
+            jogo.physics.arcade.overlap( this.jogador,
+                                                            this.moeda,
+                                                            this.pegarMoeda,
+                                                            null,
+                                                            this);
+
+            this.moverJogador();
+
+            if (this.hitPlayer) {
+                this.jogador.vidas--;
+            }
+
+            if (!this.jogador.inWorld || this.jogador.vidas <= 0) {
                 this.reiniciar();
             }
         },
@@ -72,8 +101,21 @@ function body_onload() {
 
         },
 
-        moverJogador: function () {
+        adicionarInimigo: function () {
+            var inimigo = this.inimigos.getFirstDead();
+            if (!inimigo)
+                return;
+            inimigo.anchor.setTo(0.5, 1);
+            inimigo.reset(jogo.width * 0.5, 1);
+            inimigo.body.gravity.y = 500;
+            inimigo.body.gravity.x = 100 * jogo.rnd.pick([-1, 1]);
+            inimigo.body.bounce.x = 1;
+            //morrer quando sair da tela
+            inimigo.checkWorldBounds = true;
+            inimigo.outOfBoundsKill= true;
+        },
 
+        moverJogador: function () {
             if (this.cursor.left.isDown) {
                 this.jogador.body.velocity.x = -200;
             } else if (this.cursor.right.isDown) {
@@ -82,29 +124,36 @@ function body_onload() {
                 this.jogador.body.velocity.x = 0;
             }
 
-            if (this.cursor.up.isDown) {
-                console.log("pulou");
+            if (this.cursor.up.isDown && this.hitPlatform) {
                 this.jogador.body.velocity.y = -320;
-            } else if (this.cursor.up.isDown || this.hitPlatform) {
-                console.log("is hitting plataforma: " + this.hitPlatform + " is pressing Up: " + this.cursor.up.isDown + " is touching ground: " + this.jogador.body.touching.down);
             }
 
         },
 
-        moverBot: function () {
+        pegarMoeda: function (jogador, moeda) {
+            this.moeda.kill;
+            this.pontuacao += 5;
+            this.pontuacaoLabel.text = this.pontuacao;
+            this.atualizarPosicaoMoeda();
+        },
 
-            for (var i = 0; i < enemy.length(); i++){
-                if (this.bot.x == 800)
-                    direction = "esquerda";
-                else if (this.bot.x == 0)
-                    direction = "direita";
+        atualizarPosicaoMoeda() {
+            var posicoes = [
+                { x: 140, y: 60}, {x:360, y:60},
+                { x: 60, y: 140}, {x:440, y:140},
+                { x: 130, y: 300}, {x:370, y:300}
+            ];
 
-
-                if (direction == "direita")
-                    this.bot.x += 5;
-                else if (direction == "esquerda")
-                    this.bot.x -= 5;
+            for (var i = 0; i < posicoes.length; i++) {
+                if (posicoes[i].x == this.moeda.x) {
+                    posicoes.splice(i, 1);
+                    break;
+                }
             }
+
+            var novaPosicao = jogo.rnd.pick(posicoes);
+            this.moeda.reset(novaPosicao.x, novaPosicao.y);
+
         }
 
     };
